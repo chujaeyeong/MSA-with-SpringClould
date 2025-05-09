@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 
@@ -17,7 +17,7 @@ spring:
     gateway:
       routes:
         - id: first-service
-          uri: http://localhost:7081/
+          uri: lb://MY-FIRST-SERVICE    # localhost 포트번호 -> eureka 서버에서 클라이언트 요청 정보를 전달받는 방식으로 변경
           predicates:
             - Path=/first-service/**
           filters:
@@ -25,7 +25,7 @@ spring:
 #            - AddResponseHeader=first-response, first-response-header2
             - CustomFilter        # CustomFilter 클래스 사용해서 커스텀 필터 적용
         - id: second-service
-          uri: http://localhost:7082/
+          uri: lb://MY-SECOND-SERVICE   # localhost 포트번호 -> eureka 서버에서 클라이언트 요청 정보를 전달받는 방식으로 변경
           predicates:
             - Path=/second-service/**
           filters:
