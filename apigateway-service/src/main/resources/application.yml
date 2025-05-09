@@ -31,7 +31,12 @@ spring:
           filters:
 #            - AddRequestHeader=second-request, second-request-header2
 #            - AddResponseHeader=second-response, second-response-header2
-            - CustomFilter        # CustomFilter 클래스 사용해서 커스텀 필터 적용
+            - name: CustomFilter        # CustomFilter 클래스 사용해서 커스텀 필터 적용
+            - name: LoggingFilter       # Second Service 에만 Logging 필터 적용
+              args:
+                baseMessage: Hi, there
+                preLogger: true
+                postLogger: true
 
       # Global Filter
       default-filters:
