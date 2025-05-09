@@ -19,9 +19,8 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 
     @Override
     public GatewayFilter apply(Config config) {
-        // Custom Pre Filter
         return (exchange, chain) -> {
-            ServerHttpRequest request = exchange.getRequest(); // reactive 포함된 걸로 import
+            ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
             log.info("Global Filter baseMessage: {}", config.getBaseMessage());
@@ -30,10 +29,9 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
                 log.info("Global Filter Start: request id -> {}", request.getId());
             }
 
-            // Custom Post Filter
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 if (config.isPostLogger()) {
-                    log.info("Global Filter End: request id -> {}", response.getStatusCode());
+                    log.info("Global Filter End: response code -> {}", response.getStatusCode());
                 }
             }));
         };
