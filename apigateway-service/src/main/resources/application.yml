@@ -12,7 +12,7 @@ spring:
   application:
     name: gateway-service
 
-#  config ???? ??? ?? application.yml ?? ??? ??? ???? ??
+#  config 클래스를 사용하지 않고 application.yml에 필터를 추가하는 방법
   cloud:
     gateway:
       routes:
@@ -21,12 +21,14 @@ spring:
           predicates:
             - Path=/first-service/**
           filters:
-            - AddRequestHeader=first-request, first-request-header2
-            - AddResponseHeader=first-response, first-response-header2
+#            - AddRequestHeader=first-request, first-request-header2
+#            - AddResponseHeader=first-response, first-response-header2
+            - CustomFilter        # CustomFilter 클래스 사용해서 커스텀 필터 적용
         - id: second-service
           uri: http://localhost:7082/
           predicates:
             - Path=/second-service/**
           filters:
-            - AddRequestHeader=second-request, second-request-header2
-            - AddResponseHeader=second-response, second-response-header2
+#            - AddRequestHeader=second-request, second-request-header2
+#            - AddResponseHeader=second-response, second-response-header2
+            - CustomFilter        # CustomFilter 클래스 사용해서 커스텀 필터 적용
