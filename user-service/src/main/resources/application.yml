@@ -5,11 +5,47 @@ spring:
   application:
     name: user-service
 
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 1234
+
+  # 자동 빌드 해제 설정
+  devtools:
+    restart:
+      enabled: false
+
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+greeting:
+  message: Welcome to the Simple E-commerce.
+
+
+# 추가설정
+logging.level:
+  org.hibernate.SQL: DEBUG              # (선택) 실행되는 SQL
+  org.hibernate.orm.jdbc.bind: TRACE    # 스프링 부트 3.x, hibernate6 / 바인딩 파라미터까지 보고 싶을 때
+  org.hibernate.tool.hbm2ddl: DEBUG     # 스키마 DDL 쿼리 출력
